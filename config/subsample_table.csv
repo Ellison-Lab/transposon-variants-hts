@@ -1,0 +1,3 @@
+sample_name,subsample_name,fastq_r1,fastq_r2,
+w1118_female,w1118_females_gDNA,/media/mlawlor/work/data/wgs/w1118_females_gDNA_1.fq.gz,/media/mlawlor/work/data/wgs/w1118_females_gDNA_2.fq.gz,
+w1118_male,LWG012_w1118_male_gDNA,/media/mlawlor/work/data/wgs/LWG012_w1118_male_gDNA_1.fq.gz,/media/mlawlor/work/data/wgs/LWG012_w1118_male_gDNA_2.fq.gz,

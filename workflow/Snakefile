@@ -1,0 +1,15 @@
+import sys
+import peppy
+
+singularity: "docker://continuumio/miniconda3"
+configfile: "config/config.yaml"
+pepfile: "config/pep.yaml"
+
+SAMPLES = [x.sample_name for x in pep.samples]
+SUBSAMPLE_TABLE = pep.subsample_table[0]
+
+rule all:
+    input:
+        "results/freebayes/calls.filt.vcf.gz",
+
+include: "rules/variants.smk"
