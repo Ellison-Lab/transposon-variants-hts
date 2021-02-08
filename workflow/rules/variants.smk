@@ -108,7 +108,7 @@ rule freebayes:
     log:
         "results/logs/freebayes.log"
     params:
-        extra="--pooled-continuous -F 0.001 -C 3 -p 1 --min-base-quality 20",         # freq-based calling
+        extra="--pooled-continuous -F 0.01 -C 3 -p 1 --min-base-quality 30",         # freq-based calling
         chunksize=100000,
         normalize=False,  # flag to use bcftools norm to normalize indels
     threads: 8
@@ -130,6 +130,21 @@ rule bcftools_filter:
         """
         bcftools norm -m-any {input} | \
         bcftools filter -Oz -o {output.vcf} \
-            -i '%QUAL>10 && SAP>10 && SRP>10 && EPP>10' {input} &&
+            -i '%QUAL>20 && SAP>10 && SRP>10 && EPP>10' &&
+        tabix {output.vcf}
+        """
+
+rule get_male:
+    input:
+        rules.bcftools_filter.output.vcf,
+    output:
+        vcf="results/freebayes/male.vcf.gz",
+        tbi="results/freebayes/male.vcf.gz.tbi",
+    conda:
+        "../envs/bcftools.yaml"
+    shell:
+        """
+        bcftools filter -Oz -o {output.vcf} \
+            -i 'FORMAT/AO==0' {input} &&
         tabix {output.vcf}
         """

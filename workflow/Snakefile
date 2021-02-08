@@ -10,6 +10,6 @@ SUBSAMPLE_TABLE = pep.subsample_table[0]
 
 rule all:
     input:
-        "results/freebayes/calls.filt.vcf.gz",
+        "results/freebayes/male.vcf.gz",
 
 include: "rules/variants.smk"
