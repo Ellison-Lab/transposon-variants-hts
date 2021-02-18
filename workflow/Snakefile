@@ -10,6 +10,7 @@ SUBSAMPLE_TABLE = pep.subsample_table[0]
 
 rule all:
     input:
-        "results/freebayes/male.vcf.gz",
+        expand("results/merged/{s}.bam", s=SAMPLES)
 
+include: "rules/trim.smk"
 include: "rules/variants.smk"

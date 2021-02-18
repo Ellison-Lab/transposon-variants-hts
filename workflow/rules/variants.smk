@@ -1,7 +1,3 @@
-def get_fastqs(wc):
-    tmp = SUBSAMPLE_TABLE[SUBSAMPLE_TABLE['sample_name'] == wc.sample]
-    tmp2 = tmp[tmp['subsample_name'] == wc.subsample]
-    return [tmp2.get('fastq_r1')[0], tmp2.get('fastq_r2')[0]]
 
 rule bwa_mem2_index:
     """
@@ -20,7 +16,7 @@ rule bwa_mem2_index:
 
 rule bwa_mem2_mem:
     input:
-        reads = get_fastqs,
+        reads = rules.trim_qual.output,
         idx = rules.bwa_mem2_index.output,
     output:
         temp("results/mapped/{sample}-{subsample}.bam")
