@@ -10,7 +10,7 @@ SUBSAMPLE_TABLE = pep.subsample_table[0]
 
 rule all:
     input:
-        expand("results/merged/{s}.bam", s=SAMPLES)
+        expand("results/merged/{s}.{f}", s=SAMPLES,f=['bam','bam.bai'])
 
 include: "rules/trim.smk"
 include: "rules/variants.smk"
