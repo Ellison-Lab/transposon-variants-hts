@@ -82,12 +82,12 @@ rule samtools_merge:
     wrapper:
         "0.70.0/bio/samtools/merge"
 
-rule samtools_index:
+rule filter_bwa_reads:
     input:
         "results/merged/{sample}.bam"
     output:
-        "results/merged/{sample}.bam.bai"
+        "results/filt/{sample}.bam",
     params:
-        "" # optional params string
+        "-O BAM -F 256 -q {mapq}".format(mapq = config.get('MIN_BM2_MAPQ'))
     wrapper:
-        "0.70.0/bio/samtools/index"
+        "0.72.0/bio/samtools/view"
