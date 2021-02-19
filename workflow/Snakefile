@@ -10,10 +10,9 @@ SUBSAMPLE_TABLE = pep.subsample_table[0]
 
 rule all:
     input:
-        expand("results/filt/{s}.{f}", s=SAMPLES,f=['bam','bam.bai'])
-
-include: "rules/trim.smk"
-include: "rules/variants.smk"
+        expand('results/copies/{s}.tsv',s=SAMPLES),
+        expand("results/merged/{s}.bam.flagstat",s=SAMPLES),
+        expand("results/snps/snps.tsv.gz",s=SAMPLES)
 
 rule samtools_index:
     input:
@@ -24,3 +23,16 @@ rule samtools_index:
         "" # optional params string
     wrapper:
         "0.70.0/bio/samtools/index"
+
+rule samtools_flagstat:
+    input:
+        "{file}.bam"
+    output:
+        "{file}.bam.flagstat"
+    wrapper:
+        "0.72.0/bio/samtools/flagstat"
+
+include: "rules/trim.smk"
+include: "rules/align-wgs.smk"
+include: "rules/depth.smk"
+include: "rules/snps.smk"

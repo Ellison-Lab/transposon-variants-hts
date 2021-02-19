@@ -1,10 +1,10 @@
 
 rule bwa_mem2_index:
     """
-    Index consensus transposon sequences for use with bwa-mem2
+    Index genome
     """
     input:
-        config.get('CONSENSUS_TE_FASTA')
+        config.get('COMBINED_GENOME')
     output:
         multiext("results/idx/transposons",".0123",".amb",".ann",".bwt.2bit.64",".bwt.8bit.32",".pac")
     log:
@@ -29,7 +29,7 @@ rule bwa_mem2_mem:
         sort="samtools",             # Can be 'none', 'samtools' or 'picard'.
         sort_order="queryname", # Can be 'coordinate' (default) or 'queryname'.
         sort_extra=""            # Extra args for samtools/picard.
-    threads: 8
+    threads: 12
     wrapper:
         "0.70.0/bio/bwa-mem2/mem"
 
@@ -66,13 +66,23 @@ rule picard_mark_duplicates:
     log:
         "results/logs/picard_mark_duplicates/{sample}-{subsample}.log"
     params:
-        "REMOVE_DUPLICATES=false VALIDATION_STRINGENCY=LENIENT",
+        "REMOVE_DUPLICATES=true VALIDATION_STRINGENCY=LENIENT",
     wrapper:
         "0.70.0/bio/picard/markduplicates"
 
+rule filter_bwa_reads:
+    input:
+        "results/marked/{sample}-{subsample}.bam"
+    output:
+        "results/filt/{sample}-{subsample}.bam"
+    params:
+        "-O BAM -F 256 -q {mapq}".format(mapq = config.get('MIN_BM2_MAPQ'))
+    wrapper:
+        "0.72.0/bio/samtools/view"
+
 rule samtools_merge:
     input:
-        lambda wc: expand("results/marked/{s}-{sub}.bam",s=wc.sample,sub=pep.get_sample(wc.sample).subsample_name)
+        lambda wc: expand("results/filt/{s}-{sub}.bam",s=wc.sample,sub=pep.get_sample(wc.sample).subsample_name)
     output:
         "results/merged/{sample}.bam"
     params:
@@ -81,13 +91,3 @@ rule samtools_merge:
         8     # This value - 1 will be sent to -@
     wrapper:
         "0.70.0/bio/samtools/merge"
-
-rule filter_bwa_reads:
-    input:
-        "results/merged/{sample}.bam"
-    output:
-        "results/filt/{sample}.bam",
-    params:
-        "-O BAM -F 256 -q {mapq}".format(mapq = config.get('MIN_BM2_MAPQ'))
-    wrapper:
-        "0.72.0/bio/samtools/view"
