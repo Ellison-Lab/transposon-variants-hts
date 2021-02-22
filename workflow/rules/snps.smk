@@ -2,7 +2,7 @@ rule get_pileups:
     input:
         bam = "results/merged/{sample}.bam",
         bai = "results/merged/{sample}.bam.bai",
-        fasta = config.get('CONSENSUS_TE_FASTA')
+        fasta = config.get("TRANSPOSON_FASTA")
     output:
         tsv = "results/pileups/{sample}.pileups.tsv.gz"
     params:
@@ -20,7 +20,7 @@ rule get_pileups:
 rule get_snps:
     input:
         pileups = expand("results/pileups/{s}.pileups.tsv.gz",s=SAMPLES),
-        fasta = config.get('CONSENSUS_TE_FASTA')
+        fasta = config.get("TRANSPOSON_FASTA")
     output:
         bed = "results/snps/snps.bed",
         tsv = "results/snps/snps.tsv.gz",
