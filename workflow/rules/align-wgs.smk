@@ -9,6 +9,10 @@ rule bwa_mem2_index:
         multiext("results/idx/transposons",".0123",".amb",".ann",".bwt.2bit.64",".bwt.8bit.32",".pac")
     log:
         "results/logs/bwa-mem2_index/transposons.log"
+    resources:
+        time=60,
+        mem=20000,
+        cpus=4
     params:
         prefix="results/idx/transposons"
     wrapper:
@@ -22,6 +26,10 @@ rule bwa_mem2_mem:
         temp("results/mapped/{sample}-{subsample}.bam")
     log:
         "results/logs/bwa_mem2/{sample}-{subsample}.log"
+    resources:
+        time=120,
+        mem=32000,
+        cpus=24
     params:
         index="results/idx/transposons",
         #extra=r"-R '@RG\tID:{sample}\tSM:{sample}'",
@@ -29,7 +37,7 @@ rule bwa_mem2_mem:
         sort="samtools",             # Can be 'none', 'samtools' or 'picard'.
         sort_order="queryname", # Can be 'coordinate' (default) or 'queryname'.
         sort_extra=""            # Extra args for samtools/picard.
-    threads: 12
+    threads: 24
     wrapper:
         "0.70.0/bio/bwa-mem2/mem"
 
@@ -40,6 +48,8 @@ rule samtools_fixmate:
         temp("results/fixed/{sample}-{subsample}.bam")
     threads:
         4
+    resources:
+        cpus=4
     params:
         extra = ""
     wrapper:
@@ -50,6 +60,8 @@ rule samtools_sort:
         "results/fixed/{sample}-{subsample}.bam"
     output:
         temp("results/sorted/{sample}-{subsample}.bam")
+    resources:
+        cpus=8
     params:
         extra = "-m 4G",
     threads:  # Samtools takes additional threads through its option -@
@@ -85,6 +97,8 @@ rule samtools_merge:
         lambda wc: expand("results/filt/{s}-{sub}.bam",s=wc.sample,sub=pep.get_sample(wc.sample).subsample_name)
     output:
         "results/merged/{sample}.bam"
+    resources:
+        cpus=8
     params:
         "" # optional additional parameters as string
     threads:  # Samtools takes additional threads through its option -@

@@ -12,6 +12,10 @@ rule trim_qual:
     params:
         q = config.get('MIN_FQ_QUAL', 20),
         min_read_len = config.get('MIN_READ_LEN', 35)
+    resources:
+        time=60,
+        mem=5000,
+        cpus=8
     conda:
         "../envs/cutadapt.yaml"
     threads:

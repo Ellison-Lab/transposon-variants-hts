@@ -7,6 +7,10 @@ rule get_pileups:
         tsv = "results/pileups/{sample}.pileups.tsv.gz"
     params:
         bq = config.get('MIN_SNP_BQ')
+    resources:
+        time=20,
+        mem=10000,
+        cpus=2
     conda:
         "../envs/bioc-general.yaml"
     script:
@@ -23,6 +27,10 @@ rule get_snps:
         vcfs = expand("results/snps/{s}-snps.vcf",s=SAMPLES),
     params:
         min_snp_depth =  config.get('MIN_SNP_SUPPORT')
+    resources:
+        time=20,
+        mem=10000,
+        cpus=2
     conda:
         "../envs/bioc-general.yaml"
     script:
