@@ -1,5 +1,5 @@
-CONSENSUS_TE_FASTA: /media/mlawlor/work/data/genome/dmel_repbase_lib.fasta
-COMBINED_GENOME: /media/mlawlor/work/TestisTpn/data/combined.fasta
+TRANSPOSON_FASTA: /media/mlawlor/work/data/genome/dmel_repbase_lib.fasta
+#COMBINED_GENOME: /media/mlawlor/work/TestisTpn/data/combined.fasta
 MIN_BM2_MAPQ: 1
 MOSDEPTH_WINDOW_SIZE: 100
 MIN_SNP_BQ: 10

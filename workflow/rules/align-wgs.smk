@@ -4,7 +4,7 @@ rule bwa_mem2_index:
     Index genome
     """
     input:
-        config.get('COMBINED_GENOME')
+        custom_genome('results/custom-genome/combined.fasta')
     output:
         multiext("results/idx/transposons",".0123",".amb",".ann",".bwt.2bit.64",".bwt.8bit.32",".pac")
     log:

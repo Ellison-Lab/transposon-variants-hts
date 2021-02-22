@@ -8,7 +8,17 @@ pepfile: "config/pep.yaml"
 
 SAMPLES = [x.sample_name for x in pep.samples]
 SUBSAMPLE_TABLE = pep.subsample_table[0]
-TES = [x.id.split("#")[0] for x in SeqIO.parse(config.get("CONSENSUS_TE_FASTA"), "fasta")]
+TES = [x.id.split("#")[0] for x in SeqIO.parse(config.get("TRANSPOSON_FASTA"), "fasta")]
+
+MAIN_CONFIG = config.get("MAIN_CONFIG",'config/config.yaml')
+
+subworkflow custom_genome:
+    workdir:
+        "../../gte21-custom-genome/"
+    snakefile:
+        "../../gte21-custom-genome/workflow/Snakefile"
+    configfile:
+        MAIN_CONFIG
 
 
 rule all:
