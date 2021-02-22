@@ -3,7 +3,7 @@ import peppy
 from Bio import SeqIO
 
 singularity: "docker://continuumio/miniconda3"
-configfile: "config/config.yaml"
+#configfile: "config/config.yaml"
 pepfile: "config/pep.yaml"
 
 SAMPLES = [x.sample_name for x in pep.samples]
