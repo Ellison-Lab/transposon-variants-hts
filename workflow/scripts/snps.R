@@ -1,12 +1,16 @@
 library(tidyverse)
 library(rtracklayer)
+library(VariantAnnotation)
 
-pileups <- snakemake@input[['pileups']] # Sys.glob('results/pileups/*pileups.tsv.gz')
-te_fa <- snakemake@input[['fasta']] #'/media/mlawlor/work/data/genome/dmel_repbase_lib.fasta'
-min_snp_depth <- snakemake@params[['min_snp_depth']]
+pileups <- snakemake@input[['pileups']] # pileups <- Sys.glob('results/pileups/*pileups.tsv.gz')
+te_fa <- snakemake@input[['fasta']] #te_fa <- '/media/mlawlor/work/data/genome/dmel_repbase_lib.fasta'
+min_snp_depth <- snakemake@params[['min_snp_depth']] # min_snp_depth <- 15
 
-tes <- import(te_fa) %>%
-  names() %>% str_extract('.+(?=#)')
+te_dss <- import(te_fa)
+
+tes <- names(te_dss) %>% str_extract('.+(?=#)')
+
+names(te_dss) <- tes
 
 pileups.df2 <- map_df(pileups, read_tsv) %>% filter(seqnames %in% tes)
 
@@ -40,12 +44,39 @@ pileups.df2 <-pileups.df2 %>%
 
 # add col with snp specificity, ie the name of the sample that exclusively has that snp
 pileups.df2 <- pileups.df2 %>% 
-  mutate(specificity= colnames(select(.,any_of(sample_names)))[max.col(select(.,any_of(sample_names)))])
+  mutate(specificity= colnames(dplyr::select(.,any_of(sample_names)))[max.col(dplyr::select(.,any_of(sample_names)))])
 
-pileups.df2 %>%
+# arbitrarily add genotype calls - this is bc star needs this to run allelic expression
+pileups.df2$GT <- c("0/1")
+
+gr <- pileups.df2 %>%
   mutate(start = pos, end=pos, name=paste(specificity,nucleotide, sep = ',')) %>%
-  GRanges() %>% 
-  export(snakemake@output[['bed']])
+  mutate(ref = "", alt=nucleotide) %>%
+  GRanges()
+
+refs <- getSeq(te_dss, gr) %>% as.character()
+
+gr$ref <- refs
+
+# store X where the male specific allele is also ref
+gr[(gr$ref == gr$alt)]$ref <- "N"
+
+message('making vr')
+vr <- VariantAnnotation::makeVRangesFromGRanges(gr)[,c('GT','specificity')]
+
+sampleNames(vr) <- vr$specificity
+
+output_vcfs <- snakemake@output[['vcfs']] #output_vcfs <- c('~/Downloads/snps/w1118_male-snps.vcf','~/Downloads/snps/w1118_female-snps.vcf')
+output_vcfs <- str_extract(output_vcfs,'(?<=snps\\/).+(?=-snps)') %>% set_names(output_vcfs)
+
+message('writing vr')
+
+output_vcfs %>%
+  imap(~vr[vr$specificity==.x]) %>%
+  map(.f= function(x) {sampleNames(x) <- droplevels(sampleNames(x)); x}) %>%
+  iwalk(~writeVcf(obj = .x,filename = .y))
+
+export(gr, snakemake@output[['bed']])
 
 write_tsv(pileups.df2, snakemake@output[['tsv']])
 

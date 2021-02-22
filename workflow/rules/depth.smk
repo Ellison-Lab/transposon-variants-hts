@@ -8,7 +8,7 @@ rule mosdepth:
         12
     params:
         pfx = 'results/depth/{sample}/{sample}',
-        ws = config.get('MOSDEPTH_WINDOW_SIZE')
+        ws = config.get('MOSDEPTH_WINDOW_SIZE'),
     conda:
         '../envs/mosdepth.yaml'
     shell:

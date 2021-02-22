@@ -1,5 +1,6 @@
 import sys
 import peppy
+from Bio import SeqIO
 
 singularity: "docker://continuumio/miniconda3"
 configfile: "config/config.yaml"
@@ -7,12 +8,13 @@ pepfile: "config/pep.yaml"
 
 SAMPLES = [x.sample_name for x in pep.samples]
 SUBSAMPLE_TABLE = pep.subsample_table[0]
+TES = [x.id.split("#")[0] for x in SeqIO.parse(config.get("CONSENSUS_TE_FASTA"), "fasta")]
+
 
 rule all:
     input:
         expand('results/copies/{s}.tsv',s=SAMPLES),
-        expand("results/merged/{s}.bam.flagstat",s=SAMPLES),
-        expand("results/snps/snps.tsv.gz",s=SAMPLES)
+        expand("results/snps/{s}-snps.vcf", s=SAMPLES),
 
 rule samtools_index:
     input:
@@ -23,6 +25,16 @@ rule samtools_index:
         "" # optional params string
     wrapper:
         "0.70.0/bio/samtools/index"
+
+rule bcftools_index:
+    input:
+        "{file}.vcf.gz"
+    output:
+        "{file}.vcf.gz.tbi"
+    params:
+        extra="-t" # optional params string
+    wrapper:
+        "0.72.0/bio/bcftools/index"
 
 rule samtools_flagstat:
     input:

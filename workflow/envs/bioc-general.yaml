@@ -7,4 +7,5 @@ dependencies:
 - bioconductor-rtracklayer
 - r-seurat=3.0.2
 - bioconductor-biomart=2.40.3
--  bioconductor-bsgenome.mmusculus.ucsc.mm9=1.4.0
+- bioconductor-bsgenome.mmusculus.ucsc.mm9=1.4.0
+- bioconductor-variantannotation
