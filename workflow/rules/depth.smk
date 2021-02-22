@@ -23,7 +23,7 @@ rule mosdepth:
 rule copies:
     input:
         cov = 'results/depth/{sample}/{sample}.mosdepth.summary.txt',
-        fasta = config.get('CONSENSUS_TE_FASTA')
+        fasta = config.get("TRANSPOSON_FASTA")
     output:
         tsv = 'results/copies/{sample}.tsv'
     resources:
