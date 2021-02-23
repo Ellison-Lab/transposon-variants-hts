@@ -6,7 +6,7 @@ rule bwa_mem2_index:
     input:
         custom_genome('results/custom-genome/combined.fasta')
     output:
-        multiext("results/idx/transposons",".0123",".amb",".ann",".bwt.2bit.64",".bwt.8bit.32",".pac")
+        multiext("results/idx/idx",".0123",".amb",".ann",".bwt.2bit.64",".bwt.8bit.32",".pac")
     log:
         "results/logs/bwa-mem2_index/transposons.log"
     resources:
@@ -14,7 +14,7 @@ rule bwa_mem2_index:
         mem=20000,
         cpus=4
     params:
-        prefix="results/idx/transposons"
+        prefix="results/idx/idx"
     wrapper:
         "0.70.0/bio/bwa-mem2/index"
 
@@ -31,7 +31,7 @@ rule bwa_mem2_mem:
         mem=32000,
         cpus=24
     params:
-        index="results/idx/transposons",
+        index="results/idx/idx",
         #extra=r"-R '@RG\tID:{sample}\tSM:{sample}'",
         extra=lambda wc: r"-R '@RG\tID:{r}\tSM:{s}\tLB:{l}'".format(s=wc.sample, r=pep.get_sample(wc.sample).rgid, l=wc.subsample),
         sort="samtools",             # Can be 'none', 'samtools' or 'picard'.

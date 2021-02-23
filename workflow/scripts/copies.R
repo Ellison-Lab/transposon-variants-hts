@@ -2,7 +2,7 @@ library(tidyverse)
 library(rtracklayer)
 
 #coverage_fl <- "results/depth/w1118_female/w1118_female.mosdepth.summary.txt"
-#te_fasta <- '/media/mlawlor/work/data/genome/dmel_repbase_lib.fasta'
+#te_fa <- '/media/mlawlor/work/data/genome/dmel_repbase_lib.fasta'
 
 coverage_fl <- snakemake@input[['cov']]
 te_fa <- snakemake@input[['fasta']]
