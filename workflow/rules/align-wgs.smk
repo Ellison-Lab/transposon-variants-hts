@@ -16,7 +16,7 @@ rule bwa_mem2_index:
     params:
         prefix="results/idx/idx"
     wrapper:
-        "0.72.0/bio/bwa-mem2/index"
+        "https://github.com/snakemake/snakemake-wrappers/raw/0.72.0/bio/bwa-mem2/index"
 
 rule bwa_mem2_mem:
     input:
@@ -39,7 +39,7 @@ rule bwa_mem2_mem:
         sort_extra=""            # Extra args for samtools/picard.
     threads: 24
     wrapper:
-        "0.72.0/bio/bwa-mem2/mem"
+        "https://github.com/snakemake/snakemake-wrappers/raw/0.72.0/bio/bwa-mem2/mem"
 
 rule samtools_fixmate:
     input:
@@ -53,7 +53,7 @@ rule samtools_fixmate:
     params:
         extra = ""
     wrapper:
-        "0.70.0/bio/samtools/fixmate/"
+        "https://github.com/snakemake/snakemake-wrappers/raw/0.70.0/bio/samtools/fixmate/"
 
 rule samtools_sort:
     input:
@@ -67,7 +67,7 @@ rule samtools_sort:
     threads:  # Samtools takes additional threads through its option -@
         8     # This value - 1 will be sent to -@.
     wrapper:
-        "0.70.0/bio/samtools/sort"
+        "https://github.com/snakemake/snakemake-wrappers/raw/0.70.0/bio/samtools/sort"
 
 rule picard_mark_duplicates:
     input:
@@ -80,7 +80,7 @@ rule picard_mark_duplicates:
     params:
         "REMOVE_DUPLICATES=true VALIDATION_STRINGENCY=LENIENT",
     wrapper:
-        "0.70.0/bio/picard/markduplicates"
+        "https://github.com/snakemake/snakemake-wrappers/raw/0.70.0/bio/picard/markduplicates"
 
 rule filter_bwa_reads:
     input:
@@ -90,7 +90,7 @@ rule filter_bwa_reads:
     params:
         "-O BAM -F 256 -q {mapq}".format(mapq = config.get('MIN_BM2_MAPQ'))
     wrapper:
-        "0.72.0/bio/samtools/view"
+        "https://github.com/snakemake/snakemake-wrappers/raw/0.72.0/bio/samtools/view"
 
 rule samtools_merge:
     input:
@@ -104,4 +104,4 @@ rule samtools_merge:
     threads:  # Samtools takes additional threads through its option -@
         8     # This value - 1 will be sent to -@
     wrapper:
-        "0.70.0/bio/samtools/merge"
+        "https://github.com/snakemake/snakemake-wrappers/raw/0.70.0/bio/samtools/merge"
