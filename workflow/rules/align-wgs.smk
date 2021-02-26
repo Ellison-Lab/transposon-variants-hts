@@ -68,7 +68,7 @@ rule samtools_sort:
     threads:  # Samtools takes additional threads through its option -@
         8     # This value - 1 will be sent to -@.
     wrapper:
-        "https://github.com/snakemake/snakemake-wrappers/raw/0.70.0/bio/samtools/sort"
+        "https://github.com/snakemake/snakemake-wrappers/raw/0.72.0/bio/samtools/sort"
 
 rule picard_mark_duplicates:
     input:
