@@ -16,7 +16,7 @@ rule bwa_mem2_index:
     params:
         prefix="results/idx/idx"
     wrapper:
-        "0.70.0/bio/bwa-mem2/index"
+        "0.72.0/bio/bwa-mem2/index"
 
 rule bwa_mem2_mem:
     input:
@@ -39,7 +39,7 @@ rule bwa_mem2_mem:
         sort_extra=""            # Extra args for samtools/picard.
     threads: 24
     wrapper:
-        "0.70.0/bio/bwa-mem2/mem"
+        "0.72.0/bio/bwa-mem2/mem"
 
 rule samtools_fixmate:
     input:
