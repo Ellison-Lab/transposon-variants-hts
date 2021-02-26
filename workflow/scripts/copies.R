@@ -15,19 +15,21 @@ tes <- import(te_fa) %>%
 
 autosomes <- c('2L','2R','3L','3R','4')
 
+autosomes.for.depth <- c('2L','2R','3L','3R')
+
 sex.chr <- c('X','Y')
 
 diploid_thresh <- coverage %>%
-  filter(chrom %in% autosomes) %>%
+  filter(chrom %in% autosomes.for.depth) %>%
   pull(mean) %>%
   mean()
-  
+
 copies <- coverage %>%
   filter(chrom %in% c(tes, autosomes, sex.chr)) %>%
   mutate(est.copies = 2*mean/diploid_thresh) %>%
   dplyr::select(sequence = chrom, length, bases, median.cov = mean, est.copies) %>%
   arrange(-est.copies)
-  
+
 write_tsv(copies,snakemake@output[['tsv']])
 
 
@@ -36,17 +38,17 @@ write_tsv(copies,snakemake@output[['tsv']])
 # library(plotly)
 # library(GenomicRanges)
 # library(arrow)
-# 
+#
 # te.lookup <- read_tsv("~/work/TestisTEs2021/resources/te_id_lookup.curated.tsv.txt")
-# 
+#
 # geps <- open_dataset('~/finalized/larval-w1118-testes/optimal_gep_membership/', format='arrow') %>%
 #   collect()
-# 
+#
 # top_mods <- geps %>%
 #   filter(qval < 0.005) %>%
 #   group_by(module) %>% summarise(n_tes = sum(!str_detect(X1,'FBgn'))) %>%
 #   arrange(-n_tes)
-# 
+#
 # tep_tes <- geps %>%
 #   filter(qval < 0.005) %>%
 #   filter(module == top_mods$module[1]) %>%
@@ -54,10 +56,10 @@ write_tsv(copies,snakemake@output[['tsv']])
 #   filter(!str_detect(X1,'FBgn')) %>%
 #   pull(gene_id) %>%
 #   unique()
-# 
+#
 # copies.male <- read_tsv('resuts/copies/w1118_male.tsv')
 # copies.female <- read_tsv('resuts/copies/w1118_female.tsv')
-# 
+#
 # (left_join(copies.male, copies.female, by="sequence", suffix=c('.male','.female')) %>%
 #   mutate(tep = ifelse(sequence %in% tep_tes,'TEP','other')) %>%
 #   #filter(tep!='TEP') %>%
@@ -69,7 +71,7 @@ write_tsv(copies,snakemake@output[['tsv']])
 #   theme(aspect.ratio = 1) +
 #   geom_abline(intercept = 0, slope = 1)) %>%
 #   ggplotly
-# 
+#
 # left_join(copies.male, copies.female, by="sequence", suffix=c('.male','.female')) %>%
 #   filter(!sequence %in% excl.seqs) %>%
 #     filter(sequence %in% tes) %>%
@@ -81,6 +83,3 @@ write_tsv(copies,snakemake@output[['tsv']])
 #   theme(aspect.ratio = 1) +
 #   stat_compare_means() +
 #   xlab('')
-
-
-
