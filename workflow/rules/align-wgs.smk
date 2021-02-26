@@ -61,12 +61,12 @@ rule samtools_sort:
     output:
         temp("results/sorted/{sample}-{subsample}.bam")
     resources:
-        cpus=8,
-        mem=8000
+        cpus=4,
+        mem=16000
     params:
-        extra = "-m 4G",
+        extra = "",
     threads:  # Samtools takes additional threads through its option -@
-        8     # This value - 1 will be sent to -@.
+        4     # This value - 1 will be sent to -@.
     wrapper:
         "https://github.com/snakemake/snakemake-wrappers/raw/0.72.0/bio/samtools/sort"
 
