@@ -1,3 +1,17 @@
 pep_version: 2.0.0
 sample_table: "sample_table.csv"
-subsample_table: "subsample_table.csv"
+subsample_table:
+  - "subsample_table.csv"
+
+#       local1: /media/mlawlor/work/data/wgs/{sample_name}_1.fq.gz
+#       local2: /media/mlawlor/work/data/wgs/{sample_name}_2.fq.gz
+#       amarel1: /scratch/mal456/TE-proj-reorg/data/wgs/{subsample_name}_1.fq.gz
+#       amarel2: /scratch/mal456/TE-proj-reorg/data/wgs/{subsample_name}_2.fq.gz
+
+# sample_modifiers:
+#   derive:
+#     attributes: [fastq_r1,aaa]
+#     sources:
+#       local1: /media/mlawlor/work/data/wgs/{subfastq_r1}
+#       local2: /media/mlawlor/work/data/wgs/{subfastq_r2}
+#       aab: aaaaaaaa

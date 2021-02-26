@@ -3,7 +3,7 @@ import peppy
 from Bio import SeqIO
 
 singularity: "docker://continuumio/miniconda3"
-#configfile: "config/config.yaml"
+configfile: "config/config.yaml"
 pepfile: "config/pep.yaml"
 
 SAMPLES = [x.sample_name for x in pep.samples]
@@ -24,7 +24,8 @@ subworkflow custom_genome:
 rule all:
     input:
         expand('results/copies/{s}.tsv',s=SAMPLES),
-        expand("results/snps/{s}-snps.vcf", s=SAMPLES),
+        "results/snps/snps.vcf",
+        "results/snps/total-depth-at-snps.tsv.gz"
 
 rule samtools_index:
     input:
@@ -36,23 +37,6 @@ rule samtools_index:
     wrapper:
         "0.70.0/bio/samtools/index"
 
-rule bcftools_index:
-    input:
-        "{file}.vcf.gz"
-    output:
-        "{file}.vcf.gz.tbi"
-    params:
-        extra="-t" # optional params string
-    wrapper:
-        "0.72.0/bio/bcftools/index"
-
-rule samtools_flagstat:
-    input:
-        "{file}.bam"
-    output:
-        "{file}.bam.flagstat"
-    wrapper:
-        "0.72.0/bio/samtools/flagstat"
 
 include: "rules/trim.smk"
 include: "rules/align-wgs.smk"
