@@ -35,7 +35,7 @@ rule samtools_index:
     params:
         "" # optional params string
     wrapper:
-        "0.70.0/bio/samtools/index"
+        "https://github.com/snakemake/snakemake-wrappers/raw/0.70.0/bio/samtools/index"
 
 
 include: "rules/trim.smk"
