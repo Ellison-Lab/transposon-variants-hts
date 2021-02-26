@@ -61,7 +61,8 @@ rule samtools_sort:
     output:
         temp("results/sorted/{sample}-{subsample}.bam")
     resources:
-        cpus=8
+        cpus=8,
+        mem=8000
     params:
         extra = "-m 4G",
     threads:  # Samtools takes additional threads through its option -@
