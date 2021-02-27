@@ -25,7 +25,7 @@ rule all:
     input:
         expand('results/copies/{s}.tsv',s=SAMPLES),
         "results/snps/snps.vcf",
-        "results/snps/total-depth-at-snps.tsv.gz"
+        "results/snps/depth-at-snps.tsv.gz"
 
 rule samtools_index:
     input:

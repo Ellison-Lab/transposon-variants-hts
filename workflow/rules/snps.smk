@@ -43,7 +43,7 @@ rule get_total_depths_snps:
         bam = "results/merged/{s}.bam".format(s=config.get('SAMPLE_OF_INTEREST','w1118_male')),
         vcf = rules.get_male_snps.output.vcf
     output:
-        tsv = "results/snps/total-depth-at-snps.tsv.gz",
+        tsv = "results/snps/depth-at-snps.tsv.gz",
     params:
         sample_2_fingerprint =config.get('SAMPLE_OF_INTEREST','w1118_male'),
     resources:
