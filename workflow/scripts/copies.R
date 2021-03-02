@@ -30,7 +30,7 @@ copies <- coverage %>%
   dplyr::select(sequence = chrom, length, bases, median.cov = mean, est.copies) %>%
   arrange(-est.copies)
 
-write_tsv(copies,snakemake@output[['tsv']])
+write_csv(copies,snakemake@output[['csv']])
 
 
 # ---------------------------------------------------------------------------------

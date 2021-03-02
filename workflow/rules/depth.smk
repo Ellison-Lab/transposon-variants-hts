@@ -25,7 +25,7 @@ rule copies:
         cov = 'results/depth/{sample}/{sample}.mosdepth.summary.txt',
         fasta = config.get("TRANSPOSON_FASTA")
     output:
-        tsv = 'results/copies/{sample}.tsv'
+        csv = 'results/copies/{sample}.csv'
     resources:
         time=30,
         mem=20000,

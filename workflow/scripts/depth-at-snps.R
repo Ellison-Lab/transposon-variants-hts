@@ -2,9 +2,9 @@ library(VariantAnnotation)
 library(Rsamtools)
 library(tidyverse)
 
-bam <- snakemake@input[['bam']] 
+bam <- snakemake@input[['bam']]
 # bam <- 'results/merged/w1118_male.bam'
-vcf <- snakemake@input[['vcf']] 
+vcf <- snakemake@input[['vcf']]
 # vcf <- 'results/snps/snps.vcf'
 sample_name <- snakemake@params[['sample_2_fingerprint']]
 # sample_name <- 'aa'
@@ -39,4 +39,4 @@ pileups.df <- pileups.df %>%
   dplyr::select(sample, seqnames,pos,sex, depth) %>%
   arrange(seqnames, pos)
 
-write_tsv(pileups.df, snakemake@output[['tsv']])
+write_csv(pileups.df, snakemake@output[['csv']])

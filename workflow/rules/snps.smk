@@ -4,7 +4,7 @@ rule get_pileups:
         bai = "results/merged/{sample}.bam.bai",
         fasta = config.get("TRANSPOSON_FASTA")
     output:
-        tsv = "results/pileups/{sample}.pileups.tsv.gz"
+        csv = "results/pileups/{sample}.pileups.csv.gz"
     params:
         bq = config.get('MIN_SNP_BQ')
     resources:
@@ -23,7 +23,7 @@ rule get_male_snps:
         fasta = config.get("TRANSPOSON_FASTA")
     output:
         bed = "results/snps/snps.bed",
-        tsv = "results/snps/snps.tsv.gz",
+        csv = "results/snps/snps.csv.gz",
         vcf = expand("results/snps/snps.vcf"),
     params:
         min_snp_depth =  config.get('MIN_SNP_SUPPORT'),
@@ -43,7 +43,7 @@ rule get_total_depths_snps:
         bam = "results/merged/{s}.bam".format(s=config.get('SAMPLE_OF_INTEREST','w1118_male')),
         vcf = rules.get_male_snps.output.vcf
     output:
-        tsv = "results/snps/depth-at-snps.tsv.gz",
+        csv = "results/snps/depth-at-snps.csv.gz",
     params:
         sample_2_fingerprint =config.get('SAMPLE_OF_INTEREST','w1118_male'),
     resources:

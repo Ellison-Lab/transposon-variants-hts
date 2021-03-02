@@ -79,5 +79,4 @@ writeVcf(obj = vr, filename = output_vcf, index=F)
 
 export(gr, snakemake@output[['bed']])
 
-write_tsv(pileups.df2, snakemake@output[['tsv']])
-
+write_csv(pileups.df2, snakemake@output[['csv']])

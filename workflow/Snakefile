@@ -23,9 +23,9 @@ subworkflow custom_genome:
 
 rule all:
     input:
-        expand('results/copies/{s}.tsv',s=SAMPLES),
+        expand('results/copies/{s}.csv',s=SAMPLES),
         "results/snps/snps.vcf",
-        "results/snps/depth-at-snps.tsv.gz"
+        "results/snps/depth-at-snps.csv.gz"
 
 rule samtools_index:
     input:
