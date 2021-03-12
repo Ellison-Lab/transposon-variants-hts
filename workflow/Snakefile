@@ -25,7 +25,7 @@ rule all:
     input:
         expand('results/copies/{s}.csv',s=SAMPLES),
         "results/snps/snps.vcf",
-        "results/snps/depth-at-snps.csv.gz"
+        expand('results/pileups/{s}.pileups.csv.gz',s=SAMPLES),
 
 rule samtools_index:
     input:

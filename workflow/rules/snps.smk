@@ -19,7 +19,7 @@ rule get_pileups:
 
 rule get_male_snps:
     input:
-        pileups = expand("results/pileups/{s}.pileups.tsv.gz",s=SAMPLES),
+        pileups = expand("results/pileups/{s}.pileups.csv.gz",s=SAMPLES),
         fasta = config.get("TRANSPOSON_FASTA")
     output:
         bed = "results/snps/snps.bed",
@@ -37,20 +37,20 @@ rule get_male_snps:
     script:
         '../scripts/snps.R'
 
-
-rule get_total_depths_snps:
-    input:
-        bam = "results/merged/{s}.bam".format(s=config.get('SAMPLE_OF_INTEREST','w1118_male')),
-        vcf = rules.get_male_snps.output.vcf
-    output:
-        csv = "results/snps/depth-at-snps.csv.gz",
-    params:
-        sample_2_fingerprint =config.get('SAMPLE_OF_INTEREST','w1118_male'),
-    resources:
-        time=20,
-        mem=10000,
-        cpus=2
-    conda:
-        "../envs/bioc-general.yaml"
-    script:
-        '../scripts/depth-at-snps.R'
+#
+# rule get_total_depths_snps:
+#     input:
+#         bam = "results/merged/{s}.bam".format(s=config.get('SAMPLE_OF_INTEREST','w1118_male')),
+#         vcf = rules.get_male_snps.output.vcf
+#     output:
+#         csv = "results/snps/depth-at-snps.csv.gz",
+#     params:
+#         sample_2_fingerprint =config.get('SAMPLE_OF_INTEREST','w1118_male'),
+#     resources:
+#         time=20,
+#         mem=10000,
+#         cpus=2
+#     conda:
+#         "../envs/bioc-general.yaml"
+#     script:
+#         '../scripts/depth-at-snps.R'

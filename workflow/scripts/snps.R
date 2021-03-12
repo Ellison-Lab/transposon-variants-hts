@@ -14,7 +14,7 @@ tes <- names(te_dss) %>% str_extract('.+(?=#)')
 
 names(te_dss) <- tes
 
-pileups.df2 <- map_df(pileups, read_tsv) %>% filter(seqnames %in% tes)
+pileups.df2 <- map_df(pileups, read_csv) %>% filter(seqnames %in% tes)
 
 sample_names <- pileups.df2$sample %>% unique
 
