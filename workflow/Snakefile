@@ -7,7 +7,7 @@ configfile: "config/config.yaml"
 pepfile: "config/pep.yaml"
 
 SAMPLES = [x.sample_name for x in pep.samples]
-SUBSAMPLE_TABLE = pep.subsample_table[0]
+SUBSAMPLE_TABLE = pep.subsample_table
 TES = [x.id.split("#")[0] for x in SeqIO.parse(config.get("TRANSPOSON_FASTA"), "fasta")]
 
 MAIN_CONFIG = config.get("MAIN_CONFIG",'config/config.yaml')
