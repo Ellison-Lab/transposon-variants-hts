@@ -4,16 +4,16 @@ def get_fastqs(wc, r="r1"):
     return [tmp2.get('fastq_'+r)[0]]
 
 rule get_fqs:
-    input:
-        r1 = lambda wc: get_fastqs(wc, "r1"),
-        r2 = lambda wc: get_fastqs(wc, "r2"),
     output:
         r1 = "results/fastq/{sample}/{subsample}_r1.fastq.gz",
         r2 = "results/fastq/{sample}/{subsample}_r2.fastq.gz"
+    params:
+        r1 = lambda wc: get_fastqs(wc, "r1"),
+        r2 = lambda wc: get_fastqs(wc, "r2"),
     shell:
         """
-        wget -O {output.r1} {input.r1} &&
-        wget -O {output.r2} {input.r2}
+        wget -O {output.r1} {params.r1} &&
+        wget -O {output.r2} {params.r2}
         """
 
 rule trim_qual:
