@@ -1,3 +1,3 @@
 sample_name,subsample_name,fastq_r1,fastq_r2
-w1118_female,w1118_females_gDNA,https://sra-download.ncbi.nlm.nih.gov/traces/sra1/SRZ/014470/SRR14470610/w1118_females_gDNA_1.fq.gz,https://sra-download.ncbi.nlm.nih.gov/traces/sra1/SRZ/014470/SRR14470610/w1118_females_gDNA_2.fq.gz
-w1118_male,LWG012_w1118_male_gDNA,https://sra-download.ncbi.nlm.nih.gov/traces/sra56/SRZ/014470/SRR14470609/LWG012_w1118_male_gDNA_1.fq.gz,https://sra-download.ncbi.nlm.nih.gov/traces/sra56/SRZ/014470/SRR14470609/LWG012_w1118_male_gDNA_2.fq.gz
+w1118_female,w1118_females_gDNA,http://ftp.sra.ebi.ac.uk/vol1/fastq/SRR144/010/SRR14470610/SRR14470610_1.fastq.gz,http://ftp.sra.ebi.ac.uk/vol1/fastq/SRR144/010/SRR14470610/SRR14470610_2.fastq.gz
+w1118_male,LWG012_w1118_male_gDNA,http://ftp.sra.ebi.ac.uk/vol1/fastq/SRR144/009/SRR14470609/SRR14470609_1.fastq.gz,http://ftp.sra.ebi.ac.uk/vol1/fastq/SRR144/009/SRR14470609/SRR14470609_2.fastq.gz
