@@ -17,8 +17,6 @@ subworkflow custom_genome:
         "../../gte21-custom-genome/"
     snakefile:
         "../../gte21-custom-genome/workflow/Snakefile"
-    configfile:
-        MAIN_CONFIG
 
 
 rule all:
