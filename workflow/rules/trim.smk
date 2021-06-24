@@ -1,7 +1,7 @@
 rule trim_qual:
     input:
-        r1 = lambda wc: determine_resource(pep.get_sample(wc.sample).fastq_r1),
-        r2 = lambda wc: determine_resource(pep.get_sample(wc.sample).fastq_r2),
+        r1 = lambda wc: AUTO.remote(pep.get_sample(wc.sample).fastq_r1),
+        r2 = lambda wc: AUTO.remote(pep.get_sample(wc.sample).fastq_r2),
     output:
         temp("results/fastq-trim-qual/{sample}/{subsample}_r1.fastq"),
         temp("results/fastq-trim-qual/{sample}/{subsample}_r2.fastq"),
