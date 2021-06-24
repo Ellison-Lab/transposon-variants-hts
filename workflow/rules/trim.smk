@@ -8,7 +8,7 @@ rule get_fqs:
         r1 = lambda wc: get_fastqs(wc, "r1"),
         r2 = lambda wc: get_fastqs(wc, "r2"),
     output:
-        r1 = "results/fastq/{sample}/{subsample}_r1.fastq.gz"
+        r1 = "results/fastq/{sample}/{subsample}_r1.fastq.gz",
         r2 = "results/fastq/{sample}/{subsample}_r2.fastq.gz"
     shell:
         """
@@ -18,7 +18,7 @@ rule get_fqs:
 
 rule trim_qual:
     input:
-        r1 = rules.get_fqs.output.r1
+        r1 = rules.get_fqs.output.r1,
         r2 = rules.get_fqs.output.r2
     output:
         temp("results/fastq-trim-qual/{sample}/{subsample}_r1.fastq"),
